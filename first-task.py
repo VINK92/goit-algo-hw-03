@@ -13,8 +13,12 @@ def copy_files_recursively(source_dir, dest_dir):
         if os.path.isdir(source_path):
             copy_files_recursively(source_path, dest_path)
         else:
+            _, extension = os.path.splitext(item)
+            extension_dir = os.path.join(dest_dir, extension[1:])
+            if not os.path.exists(extension_dir):
+                os.makedirs(extension_dir)
             try:
-                shutil.copy2(source_path, dest_path)
+                shutil.copy2(source_path, extension_dir)
                 print(f"Копіювання {item} завершено")
             except Exception as e:
                 print(f"Помилка копіювання {item}: {e}")
